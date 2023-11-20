@@ -1,41 +1,42 @@
 package tienda;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Venta {
 
-	private String codigo;
-	private Cliente cliente;
-	private Vendedor vededor;
+    private String codigo;
+    private Cliente cliente;
+    private Vendedor vendedor;
+    private List<ItemVenta> items;
 
-	public Venta(String idVenta, Cliente cliente, Vendedor vededor) {
-		super();
-		this.codigo = idVenta;
-		this.cliente = cliente;
-		this.vededor = vededor;
-	}
+    public Venta(String codigo, Cliente cliente, Vendedor vendedor) {
+        this.codigo = codigo;
+        this.cliente = cliente;
+        this.vendedor = vendedor;
+        this.items = new ArrayList<>();
+    }
 
-	public String getCodigo() {
-		return codigo;
-	}
+    public String getCodigo() {
+        return codigo;
+    }
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
+    public Cliente getCliente() {
+        return cliente;
+    }
 
-	public Cliente getCliente() {
-		return cliente;
-	}
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+    public List<ItemVenta> getItems() {
+        return items;
+    }
 
-	public Vendedor getVededor() {
-		return vededor;
-	}
-
-	public void setVededor(Vendedor vededor) {
-		this.vededor = vededor;
-	}
+    public void agregarItemVenta(Producto producto, Integer cantidad) {
+        ItemVenta item = new ItemVenta(producto, cantidad);
+        items.add(item);
+    }
 
 	
 }
