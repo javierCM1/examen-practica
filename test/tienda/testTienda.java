@@ -3,6 +3,8 @@ package tienda;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.text.ParseException;
+
 import org.junit.Test;
 
 public class testTienda {
@@ -97,11 +99,12 @@ public class testTienda {
 	}
 
 	@Test
-	public void queSePuedaHacerUnaVentaDeUnServicio() throws VentaInexistenteException, VendibleInexistenteException {
+	public void queSePuedaHacerUnaVentaDeUnServicio() throws VentaInexistenteException, VendibleInexistenteException, ParseException {
 		Tienda tienda = new Tienda("30123456780", "Tienda de ejemplo");
 		String cuitCliente = "30123456780";
 		Cliente cliente = new Cliente(cuitCliente, "Cliente de ejemplo");
 		tienda.agregarCliente(cliente);
+		
 		String dniEjemplo = "12345678";
 		Vendedor vendedor = new Vendedor(dniEjemplo, "Vendedor de ejemplo");
 		Servicio servicio = new Servicio("1", "Servicio Técnico", 100d, "2023-02-01", "2023-03-01");
@@ -110,9 +113,11 @@ public class testTienda {
 		tienda.agregarProducto((Producto) producto, stockInicial);
 
 		tienda.agregarServicio((Servicio) servicio);
+		
 		Venta venta = new Venta("C-0001", cliente, vendedor);
 		tienda.agregarVenta(venta);
 		tienda.agregarServicioAVenta(venta.getCodigo(), servicio);
+		
 		Double totalEsperado = 100d;
 		Double totalActual = venta.getTotal();
 		assertEquals(totalEsperado, totalActual);
@@ -121,7 +126,7 @@ public class testTienda {
 
 	@Test
 	public void queSePuedaHacerUnaVentaDeUnProductosYServicios()
-			throws VentaInexistenteException, VendibleInexistenteException, StockInsuficienteException {
+			throws VentaInexistenteException, VendibleInexistenteException, StockInsuficienteException, ParseException {
 		Tienda tienda = new Tienda("30123456780", "Tienda de ejemplo");
 		String cuitCliente = "30123456780";
 		Cliente cliente = new Cliente(cuitCliente, "Cliente de ejemplo");
@@ -148,5 +153,5 @@ public class testTienda {
 		assertEquals(totalEsperado, totalActual);
 
 	}
-
+ 
 }

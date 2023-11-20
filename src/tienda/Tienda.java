@@ -12,6 +12,7 @@ public class Tienda {
 	private Map<String, Cliente> clientes;
 	private Map<String, Vendedor> vendedores;
 	private Map<String, Venta> ventas;
+	private Map<String, Vendible> servicios;
 
 	public Tienda(String cuit, String nombre) {
 		this.cuit = cuit;
@@ -21,6 +22,7 @@ public class Tienda {
 		this.clientes = new HashMap<>();
 		this.vendedores = new HashMap<>();
 		this.ventas = new HashMap<>();
+		this.servicios = new HashMap<>();
 
 	}
 
@@ -81,27 +83,46 @@ public class Tienda {
 	public void agregarProductoAVenta(String codigoVenta, Producto producto, Integer cantidad)
 			throws VentaInexistenteException, VendibleInexistenteException, StockInsuficienteException {
 		if (ventas.containsKey(codigoVenta)) {
-			
+
 			Venta venta = ventas.get(codigoVenta);
-			
+
 			if (inventario.containsKey(producto.getCodigo())) {
-				
+
 				Integer stockActual = stock.get(producto.getCodigo());
-				
+
 				if (stockActual >= cantidad) {
 					venta.agregarItemVenta(producto, cantidad);
 					stock.put(producto.getCodigo(), stockActual - cantidad);
 				} else {
 					throw new StockInsuficienteException("Stock insuficiente para la venta");
 				}
-				
+
 			} else {
 				throw new VendibleInexistenteException("Producto no encontrado en el inventario");
 			}
-			
+
 		} else {
 			throw new VentaInexistenteException("Venta no encontrada");
 		}
 	}
+
+	public void agregarServicio(Servicio servicio) {
+		servicios.put(servicio.getCodigo(), servicio);
+
+	}
+
+	public void agregarServicioAVenta(String codigo, Servicio servicio) {
+		if(ventas.containsKey(codigo)) {
+			
+			if(servicios.containsKey(servicio.getCodigo())) {
+				Venta ventaActual = ventas.get(codigo);
+				ventaActual.agregarItemServicio(servicio, 1);
+			}
+			
+		}
+		
+	}
+
+
 
 }
